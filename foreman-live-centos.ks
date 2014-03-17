@@ -816,10 +816,22 @@ sudo chown foreman:foreman /var/run/foreman
 sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 
 # do the install
-sudo foreman-installer --foreman-proxy-dns true --foreman-proxy-dhcp true \
-    --foreman-proxy-dhcp-range "192.168.223.10 192.168.223.254" \
-    --foreman-proxy-dhcp-gateway 192.168.223.1 \
-    --foreman-proxy-dns-reverse "223.168.192.in-addr.arpa"
+sudo foreman-installer \
+     --enable-foreman-proxy \
+     --foreman-proxy-tftp=true \
+     --foreman-proxy-tftp-servername=192.168.223.2 \
+     --foreman-proxy-dhcp=true \
+     --foreman-proxy-dhcp-interface=eth0 \
+     --foreman-proxy-dhcp-gateway=192.168.223.1 \
+     --foreman-proxy-dhcp-range="192.168.223.3 192.168.223.255" \
+     --foreman-proxy-dhcp-nameservers="192.168.223.2" \
+     --foreman-proxy-dns=true \
+     --foreman-proxy-dns-interface=eth0 \
+     --foreman-proxy-dns-zone=example.com \
+     --foreman-proxy-dns-reverse=223.168.192.in-addr.arpa \
+     --foreman-proxy-dns-forwarders=192.168.223.1 \
+     --foreman-proxy-foreman-base-url=https://livecd.localdomain
+
 # run puppet to seed data into foreman
 sudo puppet agent -t
 
