@@ -767,6 +767,8 @@ cp postnochroot-install postnochroot-install.log ${INSTALL_ROOT}/root
 mkdir $INSTALL_ROOT/var/lib/tftpboot/boot/
 cp discovery-prod-0.3.0-1-vmlinuz $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-vmlinuz
 cp discovery-prod-0.3.0-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-initrd.img
+cp setup_provisioning.rb $INSTALL_ROOT/usr/local/src/
+cp foreman.rb $INSTALL_ROOT/usr/local/src/
 %end
 
 %post
@@ -840,7 +842,12 @@ sudo yum localinstall -y http://yum.theforeman.org/releases/latest/el6/x86_64/fo
 sudo yum install -y ruby193-rubygem-foreman_discovery
 sudo service httpd restart
 
-
+cp /usr/local/src/setup_provisioning.rb /home/liveuser
+cp /usr/local/src/foreman.rb /home/liveuser
+chmod ugo+x /home/liveuser/setup_provisioning.rb
+cd /home/liveuser
+./setup_provisioning.rb
+echo "Foreman seeded"
 
 EOF
 

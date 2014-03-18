@@ -18,15 +18,30 @@ You need kickstart file from this github repository, currently
     git clone https://github.com/radez/foreman-live
     cd foreman-live
 
-You can the create a cd using this following command
+Then you must download discovery images, we currently use those 
+from http://yum.theforeman.org/discovery/releases/0.3/
 
-    sudo livecd-creator --verbose --config=foreman-live-centos.ks --releasever=6.5
+    wget http://yum.theforeman.org/discovery/releases/0.3/discovery-prod-0.3.0-1-initrd.img
+    wget http://yum.theforeman.org/discovery/releases/0.3/discovery-prod-0.3.0-1-vmlinuz
 
-* releasever is CentOS version (usefull if you're working on fedora or other version than you want to build)
-* config is path to kickstart file
+Now you can the create a cd using this following command
 
-This will create CentOS-Foreman-Live.iso. For the first time it will download a lot
-of data so it will take a lot of time.
+    livecd-creator --verbose --config=foreman-live-centos.ks
+
+This will create CentOS-Foreman-Live.iso. I recommend using cache so you don't
+have to download all packages for every build. To setup cache you must pass
+extra argument like this
+
+    livecd-creator --verbose --config=foreman-live-centos.ks --cache=/var/cache/live
+
+For the first time it will download a lot of data so it will take a lot of time.
+If you want to modify existing iso (so you don't spend much time on reinstalling
+whole base system every time you create new version) you can use --base-on parameter.
+It will check installed packages on that image and add only missing. For some reason
+it does not work for me, probably because of some package detection (lokkit) issue.
+However you may try it
+
+    livecd-creator --verbose --config=foreman-live-centos.ks --cache=/var/cache/live --base-on=livecd-foreman-live-centos-201403180812.iso
 
 LiveCD has hardcoded network to run on 192.168.223.0/24 network, livecd.localdomain 
 is binded on 192.168.223.2 and gateway is set to 192.168.223.1. 
