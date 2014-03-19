@@ -21,7 +21,7 @@ repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/1.4/el
 repo --name="foreman-nopretrans" --baseurl=http://file.rdu.redhat.com/~dradez/foreman_nopretrans
 
 # Root password
-rootpw --iscrypted $1$Xf6TgRMn$CaeeBnC/kbFxOxBbu7jtQ/
+rootpw root
 # System authorization information
 auth --useshadow --enablemd5
 # System keyboard
@@ -46,7 +46,7 @@ part / --fstype="ext4" --size=16000
 #*******************
 # Foreman network configs
 #*******************
-echo "192.168.223.2 livecd.localdomain livecd" >> /etc/hosts
+echo "192.168.223.2 livecd.example.com livecd" >> /etc/hosts
 
 cat > /etc/resolv.conf << EOF
 nameserver 192.168.223.2
@@ -264,22 +264,10 @@ mkdir /var/lock/subsys
 mkdir /var/run/dbus
 mkdir /var/run/NetworkManager
 mkdir /var/run/mysqld && chown mysql:mysql /var/run/mysqld
-mkdir /var/run/keystone && chown keystone:keystone /var/run/keystone
-mkdir /var/run/cinder && chown cinder:root /var/run/cinder
-mkdir /var/run/nova && chown nova:root /var/run/nova
-mkdir /var/run/glance && chown glance:glance /var/run/glance
 mkdir /var/run/httpd && chown apache:apache /var/run/httpd
-mkdir /var/lib/nova && chown nova:nova /var/lib/nova
-mkdir /var/lib/glance && chown glance:nobody /var/lib/glance
-mkdir /var/lib/keystone && chown keystone:keystone /var/lib/keystone
-mkdir /var/lib/cinder && chown keystone:keystone /var/lib/cinder
-mkdir /var/log/glance && chown glance:nobody /var/log/glance
-mkdir /var/log/nova && chown nova:root /var/log/nova
-mkdir /var/log/cinder && chown cinder:root /var/log/cinder
-mkdir /var/log/keystone && chown keystone:keystone /var/log/keystone
 mkdir /var/log/httpd && chown apache:apache /var/log/httpd
 
-[ -x /sbin/restorecon ] && /sbin/restorecon /var/lib/glance /var/lib/mysql /var/lib/libvirt /var/run /var/lock /var/log > /dev/null 2>&1
+[ -x /sbin/restorecon ] && /sbin/restorecon /var/lib/mysql /var/lib/libvirt /var/run /var/lock /var/log > /dev/null 2>&1
 
 ### set afs cell if given by boot parameter
 if [ "\\\$CELL" ]; then
@@ -298,7 +286,7 @@ fi
 sed -i -e "/ALLOWED_HOSTS/ s/\]/, '127.0.0.1']" /etc/openstack_dashboard/local_settings
 
 ### set the LiveCD hostname
-[ ! "\\\$hostname" ] && hostname="livecd.localdomain"
+[ ! "\\\$hostname" ] && hostname="livecd.example.com"
 sed -i -e "s|HOSTNAME=.*|HOSTNAME=\\\$hostname|g" /etc/sysconfig/network
 /bin/hostname \\\$hostname
 
@@ -767,6 +755,8 @@ cp postnochroot-install postnochroot-install.log ${INSTALL_ROOT}/root
 mkdir $INSTALL_ROOT/var/lib/tftpboot/boot/
 cp discovery-prod-0.3.0-1-vmlinuz $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-vmlinuz
 cp discovery-prod-0.3.0-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-initrd.img
+cp setup_provisioning.rb $INSTALL_ROOT/usr/local/src/
+cp foreman.rb $INSTALL_ROOT/usr/local/src/
 %end
 
 %post
@@ -816,10 +806,22 @@ sudo chown foreman:foreman /var/run/foreman
 sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 
 # do the install
-sudo foreman-installer --foreman-proxy-dns true --foreman-proxy-dhcp true \
-    --foreman-proxy-dhcp-range "192.168.223.10 192.168.223.254" \
-    --foreman-proxy-dhcp-gateway 192.168.223.1 \
-    --foreman-proxy-dns-reverse "223.168.192.in-addr.arpa"
+sudo foreman-installer \
+     --enable-foreman-proxy \
+     --foreman-proxy-tftp=true \
+     --foreman-proxy-tftp-servername=192.168.223.2 \
+     --foreman-proxy-dhcp=true \
+     --foreman-proxy-dhcp-interface=eth0 \
+     --foreman-proxy-dhcp-gateway=192.168.223.1 \
+     --foreman-proxy-dhcp-range="192.168.223.3 192.168.223.255" \
+     --foreman-proxy-dhcp-nameservers="192.168.223.2" \
+     --foreman-proxy-dns=true \
+     --foreman-proxy-dns-interface=eth0 \
+     --foreman-proxy-dns-zone=example.com \
+     --foreman-proxy-dns-reverse=223.168.192.in-addr.arpa \
+     --foreman-proxy-dns-forwarders=192.168.223.1 \
+     --foreman-proxy-foreman-base-url=https://livecd.example.com
+
 # run puppet to seed data into foreman
 sudo puppet agent -t
 
@@ -828,7 +830,12 @@ sudo yum localinstall -y http://yum.theforeman.org/releases/latest/el6/x86_64/fo
 sudo yum install -y ruby193-rubygem-foreman_discovery
 sudo service httpd restart
 
-
+cp /usr/local/src/setup_provisioning.rb /home/liveuser
+cp /usr/local/src/foreman.rb /home/liveuser
+chmod ugo+x /home/liveuser/setup_provisioning.rb
+cd /home/liveuser
+./setup_provisioning.rb
+echo "Foreman seeded"
 
 EOF
 
