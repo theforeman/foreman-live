@@ -46,7 +46,7 @@ part / --fstype="ext4" --size=16000
 #*******************
 # Foreman network configs
 #*******************
-echo "192.168.223.2 livecd.localdomain livecd" >> /etc/hosts
+echo "192.168.223.2 livecd.example.com livecd" >> /etc/hosts
 
 cat > /etc/resolv.conf << EOF
 nameserver 192.168.223.2
@@ -286,7 +286,7 @@ fi
 sed -i -e "/ALLOWED_HOSTS/ s/\]/, '127.0.0.1']" /etc/openstack_dashboard/local_settings
 
 ### set the LiveCD hostname
-[ ! "\\\$hostname" ] && hostname="livecd.localdomain"
+[ ! "\\\$hostname" ] && hostname="livecd.example.com"
 sed -i -e "s|HOSTNAME=.*|HOSTNAME=\\\$hostname|g" /etc/sysconfig/network
 /bin/hostname \\\$hostname
 
@@ -820,7 +820,7 @@ sudo foreman-installer \
      --foreman-proxy-dns-zone=example.com \
      --foreman-proxy-dns-reverse=223.168.192.in-addr.arpa \
      --foreman-proxy-dns-forwarders=192.168.223.1 \
-     --foreman-proxy-foreman-base-url=https://livecd.localdomain
+     --foreman-proxy-foreman-base-url=https://livecd.example.com
 
 # run puppet to seed data into foreman
 sudo puppet agent -t

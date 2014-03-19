@@ -11,6 +11,7 @@ require './foreman.rb'
 #ANSWERS_FILE = 'tmp/answers.yml'
 #answers = YAML.load_file(ANSWERS_FILE)
 
+DOMAIN = Facter.value :domain
 FQDN = Facter.value :fqdn
 FOREMAN_URL = "https://#{FQDN}"
 
@@ -57,8 +58,8 @@ if os['media'].nil?
   foreman.operating_system.update 'id' => os['id'], 'operatingsystem' => {'medium_ids' => [medium['id']]}
 end
 
-default_domain = foreman.domain.show_or_ensure({'id' => 'example.com'},
-                                               {'name' => 'example.com',
+default_domain = foreman.domain.show_or_ensure({'id' => DOMAIN},
+                                               {'name' => DOMAIN,
                                                 'fullname' => 'Default domain used for provisioning',
                                                 'dns_id' => default_proxy['id']})
 
