@@ -11,7 +11,7 @@ require './foreman.rb'
 #ANSWERS_FILE = 'tmp/answers.yml'
 #answers = YAML.load_file(ANSWERS_FILE)
 
-FQDN = 'test2.example.com' # will be fetched from Facter
+FQDN = Facter.value :fqdn
 FOREMAN_URL = "https://#{FQDN}"
 
 # These should be later configurable from Kafo (answers file)
@@ -35,7 +35,7 @@ interfaces = (Facter.value :interfaces || '').split(',').reject { |i| i == 'lo' 
   end
   ifaces
 end
-interface = interfaces['virbr0']
+interface = interfaces['eth0']
 
 # setup part
 default_proxy = foreman.smart_proxy.show! 'id' => FQDN,
