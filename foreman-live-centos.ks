@@ -21,7 +21,7 @@ repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/1.4/el
 repo --name="foreman-nopretrans" --baseurl=http://file.rdu.redhat.com/~dradez/foreman_nopretrans
 
 # Root password
-rootpw --iscrypted $1$Xf6TgRMn$CaeeBnC/kbFxOxBbu7jtQ/
+rootpw root
 # System authorization information
 auth --useshadow --enablemd5
 # System keyboard
@@ -264,22 +264,10 @@ mkdir /var/lock/subsys
 mkdir /var/run/dbus
 mkdir /var/run/NetworkManager
 mkdir /var/run/mysqld && chown mysql:mysql /var/run/mysqld
-mkdir /var/run/keystone && chown keystone:keystone /var/run/keystone
-mkdir /var/run/cinder && chown cinder:root /var/run/cinder
-mkdir /var/run/nova && chown nova:root /var/run/nova
-mkdir /var/run/glance && chown glance:glance /var/run/glance
 mkdir /var/run/httpd && chown apache:apache /var/run/httpd
-mkdir /var/lib/nova && chown nova:nova /var/lib/nova
-mkdir /var/lib/glance && chown glance:nobody /var/lib/glance
-mkdir /var/lib/keystone && chown keystone:keystone /var/lib/keystone
-mkdir /var/lib/cinder && chown keystone:keystone /var/lib/cinder
-mkdir /var/log/glance && chown glance:nobody /var/log/glance
-mkdir /var/log/nova && chown nova:root /var/log/nova
-mkdir /var/log/cinder && chown cinder:root /var/log/cinder
-mkdir /var/log/keystone && chown keystone:keystone /var/log/keystone
 mkdir /var/log/httpd && chown apache:apache /var/log/httpd
 
-[ -x /sbin/restorecon ] && /sbin/restorecon /var/lib/glance /var/lib/mysql /var/lib/libvirt /var/run /var/lock /var/log > /dev/null 2>&1
+[ -x /sbin/restorecon ] && /sbin/restorecon /var/lib/mysql /var/lib/libvirt /var/run /var/lock /var/log > /dev/null 2>&1
 
 ### set afs cell if given by boot parameter
 if [ "\\\$CELL" ]; then
