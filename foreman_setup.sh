@@ -12,6 +12,7 @@ sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 
 # do the install
 sudo foreman-installer \
+     --foreman-authentication=false \
      --enable-foreman-proxy \
      --foreman-proxy-tftp=true \
      --foreman-proxy-tftp-servername=192.168.223.2 \
