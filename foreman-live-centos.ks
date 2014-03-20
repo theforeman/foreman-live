@@ -1,6 +1,6 @@
 #version=DEVEL
 # Firewall configuration
-firewall --enabled --service=mdns
+firewall --disabled
 # X Window System configuration information
 xconfig  --startxonboot
 
