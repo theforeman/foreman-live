@@ -78,8 +78,6 @@ default_subnet = foreman.subnet.show_or_ensure({'id' => 'default'},
                                                 'dhcp_id' => default_proxy['id'],
                                                 'tftp_id' => default_proxy['id']})
 
-# TODO disable firewall
-# TODO nastavit default PXE na discovery
 name = 'PXELinux global default'
 template = <<EOS
 DEFAULT menu

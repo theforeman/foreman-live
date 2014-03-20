@@ -753,8 +753,8 @@ cp postnochroot-install postnochroot-install.log ${INSTALL_ROOT}/root
 
 %post --nochroot
 mkdir $INSTALL_ROOT/var/lib/tftpboot/boot/
-cp discovery-prod-0.3.0-1-vmlinuz $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-vmlinuz
-cp discovery-prod-0.3.0-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-initrd.img
+cp discovery-prod-0.3.1-1-vmlinuz $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-vmlinuz
+cp discovery-prod-0.3.1-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-initrd.img
 cp setup_provisioning.rb $INSTALL_ROOT/usr/local/src/
 cp foreman.rb $INSTALL_ROOT/usr/local/src/
 cp foreman_setup.sh $INSTALL_ROOT/usr/local/src/

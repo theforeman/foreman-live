@@ -19,10 +19,10 @@ You need kickstart file from this github repository, currently
     cd foreman-live
 
 Then you must download discovery images, we currently use those 
-from http://yum.theforeman.org/discovery/releases/0.3/
+from http://yum.theforeman.org/discovery/nightly/
 
-    wget http://yum.theforeman.org/discovery/releases/0.3/discovery-prod-0.3.0-1-initrd.img
-    wget http://yum.theforeman.org/discovery/releases/0.3/discovery-prod-0.3.0-1-vmlinuz
+    wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-initrd.img
+    wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-vmlinuz
 
 Now you can the create a cd using this following command
 
