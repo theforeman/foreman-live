@@ -68,7 +68,7 @@ class Foreman
         object, _ = @api_resource.show(identifier)
         if should_update?(object, attributes)
           object, _ = @api_resource.update(identifier.merge({@name.to_s => attributes}))
-          object = object['domain']
+          object = object[@name.to_s]
         end
       rescue RestClient::ResourceNotFound
         object, _ = @api_resource.create({@name.to_s => attributes})

@@ -78,6 +78,24 @@ default_subnet = foreman.subnet.show_or_ensure({'id' => 'default'},
                                                 'dhcp_id' => default_proxy['id'],
                                                 'tftp_id' => default_proxy['id']})
 
+name = 'PXELinux global default'
+template = <<EOS
+DEFAULT menu
+PROMPT 0
+MENU TITLE PXE Menu
+TIMEOUT 200
+TOTALTIMEOUT 6000
+ONTIMEOUT discovery
+
+LABEL discovery
+MENU LABEL Foreman Discovery
+KERNEL boot/discovery-vmlinuz
+APPEND rootflags=loop initrd=boot/discovery-initrd.img root=live:/foreman.iso rootfstype=auto ro rd.live.image rd.live.check rd.lvm=0 rootflags=ro crashkernel=128M elevator=deadline max_loop=256 rd.luks=0 rd.md=0 rd.dm=0 foreman.url=#{FOREMAN_URL} nomodeset selinux=0 stateless
+EOS
+
+foreman.config_template.show_or_ensure({'id' => name},
+                                       {'template' => template})
+
 foreman.config_template.build_pxe_default
 
 # Default values used for provision template searching, some were renamed after 1.4
