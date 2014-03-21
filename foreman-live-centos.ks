@@ -1,6 +1,7 @@
 #version=DEVEL
 # Firewall configuration
-firewall --disabled
+firewall --enabled --port=80:tcp,443:tcp,53:tcp,53:udp,67:udp,69:udp,8140:tcp
+
 # X Window System configuration information
 xconfig  --startxonboot
 
