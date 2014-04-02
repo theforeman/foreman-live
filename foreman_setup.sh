@@ -5,7 +5,7 @@ echo "nameserver 192.168.223.2" | sudo tee /etc/resolv.conf
 echo "nameserver 192.168.223.1" | sudo tee -a /etc/resolv.conf
 
 #sync time for ssl cert generation
-ntpdate 1.centos.pool.ntp.org
+sudo ntpdate 1.centos.pool.ntp.org
 
 #working around  http://projects.theforeman.org/issues/4353
 sudo rpm -e ruby193-rubygem-foreman_discovery
