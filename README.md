@@ -13,9 +13,10 @@ You must install tools using command (to be found in EPEL)
 
     yum install livecd-tools spin-kickstarts
 
-You need kickstart file from this github repository, currently
+You need kickstart and other scripts file from this github repository, 
+so you should
 
-    git clone https://github.com/radez/foreman-live
+    git clone https://github.com/theforeman/foreman-live
     cd foreman-live
 
 Then you must download discovery images, we currently use those 

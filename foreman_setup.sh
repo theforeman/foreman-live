@@ -39,12 +39,20 @@ sudo foreman-installer \
 # run puppet to seed data into foreman
 sudo puppet agent -t
 
-#adding discovery back in re: http://projects.theforeman.org/issues/4353
-sudo yum localinstall -y http://yum.theforeman.org/releases/latest/el6/x86_64/foreman-release.rpm
-sudo yum install -y ruby193-rubygem-foreman_discovery
-sudo service httpd restart
+
+# upload quickstack modules to /etc/puppet/environments/production/modules
+cp -r /usr/local/src/modules/* /etc/puppet/environments/production/modules
+# import quickstack modules
+foreman-rake puppet:import:puppet_classes[batch]
+# rerun seed because of staypuft
+sudo foreman-rake db:seed
 
 # seed foreman with all necessary provisioning configuration
 cd /home/liveuser
 ./setup_provisioning.rb
 echo "Foreman seeded"
+
+#adding discovery back in re: http://projects.theforeman.org/issues/4353
+sudo yum localinstall -y http://yum.theforeman.org/releases/latest/el6/x86_64/foreman-release.rpm
+sudo yum install -y ruby193-rubygem-foreman_discovery
+sudo service httpd restart
