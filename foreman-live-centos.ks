@@ -759,6 +759,7 @@ cp discovery-prod-0.3.1-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discove
 cp setup_provisioning.rb $INSTALL_ROOT/usr/local/src/
 cp foreman.rb $INSTALL_ROOT/usr/local/src/
 cp foreman_setup.sh $INSTALL_ROOT/usr/local/src/
+cp -r modules $INSTALL_ROOT/usr/local/src/modules
 %end
 
 %post
@@ -825,6 +826,7 @@ cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 foreman
 foreman-installer
 ruby193-rubygem-foreman_discovery
+ruby193-rubygem-staypuft
 
 #foreman dependencies
 bind
