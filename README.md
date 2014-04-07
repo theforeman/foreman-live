@@ -13,9 +13,10 @@ You must install tools using command (to be found in EPEL)
 
     yum install livecd-tools spin-kickstarts
 
-You need kickstart file from this github repository, currently
+You need kickstart and other scripts file from this github repository, 
+so you should
 
-    git clone https://github.com/radez/foreman-live
+    git clone https://github.com/theforeman/foreman-live
     cd foreman-live
 
 Then you must download discovery images, we currently use those 
@@ -23,6 +24,9 @@ from http://yum.theforeman.org/discovery/nightly/
 
     wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-initrd.img
     wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-vmlinuz
+
+You also need to download puppet modules. You can use get_modules.sh 
+script (you must have git installed on your system)
 
 Now you can the create a cd using this following command
 
