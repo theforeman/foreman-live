@@ -7,9 +7,6 @@ echo "nameserver 192.168.223.1" | sudo tee -a /etc/resolv.conf
 #sync time for ssl cert generation
 sudo ntpdate 1.centos.pool.ntp.org
 
-#working around  http://projects.theforeman.org/issues/4353
-sudo rpm -e ruby193-rubygem-foreman_discovery
-
 # live image deletes these, haven't investigated why, just add them and things work
 sudo mkdir /var/log/foreman
 sudo mkdir /var/run/foreman
@@ -51,8 +48,3 @@ sudo foreman-rake db:seed
 cd /home/liveuser
 ./setup_provisioning.rb
 echo "Foreman seeded"
-
-#adding discovery back in re: http://projects.theforeman.org/issues/4353
-sudo yum localinstall -y http://yum.theforeman.org/releases/latest/el6/x86_64/foreman-release.rpm
-sudo yum install -y ruby193-rubygem-foreman_discovery
-sudo service httpd restart

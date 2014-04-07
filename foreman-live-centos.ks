@@ -17,8 +17,11 @@ repo --name=centos-scl --baseurl=http://mirror.centos.org/centos/$releasever/SCL
 repo --name="epel" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
 repo --name="puppetlabs-products" --baseurl=http://yum.puppetlabs.com/el/6/products/x86_64/
 repo --name="puppetlabs-deps" --baseurl=http://yum.puppetlabs.com/el/6/dependencies/x86_64/
-repo --name="foreman" --baseurl=http://yum.theforeman.org/releases/1.4/el6/x86_64/
-repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/1.4/el6/x86_64/
+repo --name="foreman" --baseurl=http://yum.theforeman.org/nightly/el6/x86_64/
+repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/nightly/el6/x86_64/
+# official foreman-tasks, dynflow and related deps
+repo --name="katello" --baseurl=http://fedorapeople.org/groups/katello/releases/yum/nightly/RHEL/6Server/x86_64/
+# TODO remove this when all deps (foreman-tasks, staypuft, wicked) gets into plugins repo
 repo --name="foreman-nopretrans" --baseurl=http://file.rdu.redhat.com/~dradez/foreman_nopretrans
 
 # Root password
