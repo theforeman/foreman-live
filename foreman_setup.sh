@@ -40,7 +40,7 @@ sudo puppet agent -t
 # upload quickstack modules to /etc/puppet/environments/production/modules
 cp -r /usr/local/src/modules/* /etc/puppet/environments/production/modules
 # import quickstack modules
-foreman-rake puppet:import:puppet_classes[batch]
+sudo foreman-rake puppet:import:puppet_classes[batch]
 # rerun seed because of staypuft
 sudo foreman-rake db:seed
 
