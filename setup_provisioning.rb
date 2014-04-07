@@ -155,4 +155,7 @@ default_hostgroup = foreman.hostgroup.show_or_ensure({'id' => 'base'},
                                                       'puppet_proxy_id' => default_proxy['id'],
                                                       'subnet_id' => default_subnet['id']})
 
+foreman.setting.show_or_ensure({'id' => 'base_hostgroup'},
+                               {'value' => default_hostgroup['name']})
+
 puts "Your system is ready to provision using '#{default_hostgroup['name']}' hostgroup"
