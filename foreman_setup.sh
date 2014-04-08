@@ -15,8 +15,10 @@ sudo chown foreman:foreman /var/log/foreman
 sudo chown foreman:foreman /var/run/foreman
 sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 
+# TODO change nighly to 1.5 stable when released or remove, since it's already installed on livecd
 # do the install
 sudo foreman-installer \
+     --foreman-repo=nightly \
      --foreman-authentication=false \
      --enable-foreman-proxy \
      --foreman-proxy-tftp=true \
@@ -31,10 +33,16 @@ sudo foreman-installer \
      --foreman-proxy-dns-zone=example.com \
      --foreman-proxy-dns-reverse=223.168.192.in-addr.arpa \
      --foreman-proxy-dns-forwarders=192.168.223.1 \
-     --foreman-proxy-foreman-base-url=https://livecd.example.com
+     --foreman-proxy-foreman-base-url=https://livecd.example.com \
+     --no-enable-foreman-plugin-setup \
+     --no-enable-foreman-plugin-bootdisk \
+
 
 # run puppet to seed data into foreman
+# TODO find some better way
+sudo service puppet stop
 sudo puppet agent -t
+sudo service puppet start
 
 
 # upload quickstack modules to /etc/puppet/environments/production/modules
