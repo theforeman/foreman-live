@@ -12,6 +12,7 @@ class Foreman
       :partition_table => 'Ptable',
       :hostgroup => 'Hostgroup',
       :environment => 'Environment',
+      :setting => 'Setting',
   }
 
   def initialize(options)
