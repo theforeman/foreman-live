@@ -37,6 +37,8 @@ sudo foreman-installer \
      --no-enable-foreman-plugin-setup \
      --no-enable-foreman-plugin-bootdisk \
 
+# TODO remove when we have support for foreman-tasks in foreman-installer 
+sudo service foreman-tasks start
 
 # run puppet to seed data into foreman
 # TODO find some better way

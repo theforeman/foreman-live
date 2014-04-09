@@ -103,15 +103,14 @@ if os['family'] == 'Redhat'
   tmpl_name = 'Kickstart default'
   provision_tmpl_name = os['name'] == 'Redhat' ? 'Kickstart RHEL default' : tmpl_name
   ipxe_tmpl_name = 'Kickstart'
-  ptable_name = foreman.version_14? ? 'Kickstart default' : 'RedHat default'
+  ptable_name = 'Kickstart default'
 elsif os['family'] == 'Debian'
   tmpl_name = provision_tmpl_name = 'Preseed'
   ipxe_tmpl_name = nil
-  ptable_name = foreman.version_14? ? 'Preseed default' : 'Ubuntu default'
+  ptable_name = 'Preseed default'
 end
 
-ipxe_kind = foreman.version_14? ? 'iPXE' : 'gPXE'
-{'provision' => provision_tmpl_name, 'PXELinux' => tmpl_name, ipxe_kind => ipxe_tmpl_name}.each do |kind_name, tmpl_name|
+{'provision' => provision_tmpl_name, 'PXELinux' => tmpl_name, 'iPXE' => ipxe_tmpl_name}.each do |kind_name, tmpl_name|
   next if tmpl_name.nil?
   kinds = foreman.template_kind.index
   kind = kinds.detect { |k| k['name'] == kind_name }
@@ -156,6 +155,6 @@ default_hostgroup = foreman.hostgroup.show_or_ensure({'id' => 'base'},
                                                       'subnet_id' => default_subnet['id']})
 
 foreman.setting.show_or_ensure({'id' => 'base_hostgroup'},
-                               {'value' => default_hostgroup['name']})
+                               {'value' => default_hostgroup['name'].to_s})
 
 puts "Your system is ready to provision using '#{default_hostgroup['name']}' hostgroup"
