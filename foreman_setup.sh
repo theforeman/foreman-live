@@ -18,7 +18,7 @@ sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 # TODO change nighly to 1.5 stable when released or remove, since it's already installed on livecd
 # do the install
 sudo foreman-installer \
-     --foreman-repo=nightly \
+     --foreman-repo=1.5 \
      --foreman-authentication=false \
      --enable-foreman-proxy \
      --foreman-proxy-tftp=true \
@@ -26,7 +26,7 @@ sudo foreman-installer \
      --foreman-proxy-dhcp=true \
      --foreman-proxy-dhcp-interface=eth0 \
      --foreman-proxy-dhcp-gateway=192.168.223.1 \
-     --foreman-proxy-dhcp-range="192.168.223.3 192.168.223.255" \
+     --foreman-proxy-dhcp-range="192.168.223.3 192.168.223.254" \
      --foreman-proxy-dhcp-nameservers="192.168.223.2" \
      --foreman-proxy-dns=true \
      --foreman-proxy-dns-interface=eth0 \

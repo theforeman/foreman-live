@@ -17,8 +17,8 @@ repo --name=centos-scl --baseurl=http://mirror.centos.org/centos/$releasever/SCL
 repo --name="epel" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
 repo --name="puppetlabs-products" --baseurl=http://yum.puppetlabs.com/el/6/products/x86_64/
 repo --name="puppetlabs-deps" --baseurl=http://yum.puppetlabs.com/el/6/dependencies/x86_64/
-repo --name="foreman" --baseurl=http://yum.theforeman.org/nightly/el6/x86_64/
-repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/nightly/el6/x86_64/
+repo --name="foreman" --baseurl=http://yum.theforeman.org/releases/1.5/el6/x86_64/
+repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/1.5/el6/x86_64/
 
 # Root password
 rootpw root
@@ -908,7 +908,6 @@ xorg-x11-fonts-ISO8859-1-100dpi
 xorg-x11-fonts-Type1
 yum-plugin-fastestmirror
 yum-plugin-priorities
--anaconda
 -autofs
 -cjkuni-fonts-common
 -cjkuni-uming-fonts
