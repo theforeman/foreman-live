@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # add nameservers
-echo "nameserver 192.168.223.2" | sudo tee /etc/resolv.conf
-echo "nameserver 192.168.223.1" | sudo tee -a /etc/resolv.conf
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
 
 #sync time for ssl cert generation
 sudo ntpdate 1.centos.pool.ntp.org

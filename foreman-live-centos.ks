@@ -753,13 +753,7 @@ cp postnochroot-install postnochroot-install.log ${INSTALL_ROOT}/root
 %end
 
 %post --nochroot
-mkdir $INSTALL_ROOT/var/lib/tftpboot/boot/
-cp discovery-prod-0.3.1-1-vmlinuz $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-vmlinuz
-cp discovery-prod-0.3.1-1-initrd.img $INSTALL_ROOT/var/lib/tftpboot/boot/discovery-initrd.img
-cp setup_provisioning.rb $INSTALL_ROOT/usr/local/src/
-cp foreman.rb $INSTALL_ROOT/usr/local/src/
 cp foreman_setup.sh $INSTALL_ROOT/usr/local/src/
-cp -r modules $INSTALL_ROOT/usr/local/src/modules
 %end
 
 %post
@@ -797,9 +791,6 @@ cp /usr/share/applications/foreman_setup.desktop /home/liveuser/.config/autostar
 
 # create foreman_setup.sh
 cp /usr/local/src/foreman_setup.sh /home/liveuser
-cp /usr/local/src/setup_provisioning.rb /home/liveuser
-cp /usr/local/src/foreman.rb /home/liveuser
-chmod ugo+x /home/liveuser/setup_provisioning.rb
 
 #generating rsa keys
 ssh-keygen -N "" -f /root/.ssh/id_rsa
@@ -824,10 +815,11 @@ cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
 #foreman packages
 foreman
-foreman-installer-staypuft
 ruby193-rubygem-foreman_discovery
 ruby193-rubygem-staypuft
 openstack-puppet-modules
+foreman-installer
+foreman-installer-staypuft
 
 #foreman dependencies
 bind
