@@ -17,8 +17,9 @@ repo --name=centos-scl --baseurl=http://mirror.centos.org/centos/$releasever/SCL
 repo --name="epel" --mirrorlist=http://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
 repo --name="puppetlabs-products" --baseurl=http://yum.puppetlabs.com/el/6/products/x86_64/
 repo --name="puppetlabs-deps" --baseurl=http://yum.puppetlabs.com/el/6/dependencies/x86_64/
-repo --name="foreman" --baseurl=http://yum.theforeman.org/releases/1.5/el6/x86_64/
-repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/1.5/el6/x86_64/
+repo --name="foreman" --baseurl=http://yum.theforeman.org/releases/nightly/el6/x86_64/
+repo --name="foreman-plugins" --baseurl=http://yum.theforeman.org/plugins/nightly/el6/x86_64/
+repo --name="RDO" --baseurl=http://repos.fedorapeople.org/repos/openstack/openstack-icehouse/epel-6/
 
 # Root password
 rootpw root
@@ -823,9 +824,10 @@ cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
 #foreman packages
 foreman
-foreman-installer
+foreman-installer-staypuft
 ruby193-rubygem-foreman_discovery
 ruby193-rubygem-staypuft
+openstack-puppet-modules
 
 #foreman dependencies
 bind

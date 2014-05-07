@@ -17,44 +17,6 @@ sudo chown foreman-proxy:foreman-proxy /var/log/foreman-proxy
 
 # TODO change nighly to 1.5 stable when released or remove, since it's already installed on livecd
 # do the install
-sudo foreman-installer \
-     --foreman-repo=1.5 \
-     --foreman-authentication=false \
-     --enable-foreman-proxy \
-     --foreman-proxy-tftp=true \
-     --foreman-proxy-tftp-servername=192.168.223.2 \
-     --foreman-proxy-dhcp=true \
-     --foreman-proxy-dhcp-interface=eth0 \
-     --foreman-proxy-dhcp-gateway=192.168.223.1 \
-     --foreman-proxy-dhcp-range="192.168.223.3 192.168.223.254" \
-     --foreman-proxy-dhcp-nameservers="192.168.223.2" \
-     --foreman-proxy-dns=true \
-     --foreman-proxy-dns-interface=eth0 \
-     --foreman-proxy-dns-zone=example.com \
-     --foreman-proxy-dns-reverse=223.168.192.in-addr.arpa \
-     --foreman-proxy-dns-forwarders=192.168.223.1 \
-     --foreman-proxy-foreman-base-url=https://livecd.example.com \
-     --no-enable-foreman-plugin-setup \
-     --no-enable-foreman-plugin-bootdisk \
-
-# TODO remove when we have support for foreman-tasks in foreman-installer 
-sudo service foreman-tasks start
-
-# run puppet to seed data into foreman
-# TODO find some better way
-sudo service puppet stop
-sudo puppet agent -t
-sudo service puppet start
-
-
-# upload quickstack modules to /etc/puppet/environments/production/modules
-cp -r /usr/local/src/modules/* /etc/puppet/environments/production/modules
-# import quickstack modules
-sudo foreman-rake puppet:import:puppet_classes[batch]
-# rerun seed because of staypuft
-sudo foreman-rake db:seed
-
-# seed foreman with all necessary provisioning configuration
-cd /home/liveuser
-./setup_provisioning.rb
-echo "Foreman seeded"
+sudo staypuft-installer \
+     --foreman-repo=nightly \
+     --color-of-background bright
