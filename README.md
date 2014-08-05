@@ -20,10 +20,10 @@ so you should
     cd foreman-live
 
 Then you must download discovery images, we currently use those 
-from http://yum.theforeman.org/discovery/nightly/
+from http://downloads.theforeman.org/discovery/releases/
 
-    wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-initrd.img
-    wget http://yum.theforeman.org/discovery/nightly/discovery-prod-0.3.1-1-vmlinuz
+    wget http://downloads.theforeman.org/discovery/releases/latest/foreman-discovery-image-latest.el6.iso-img
+    wget http://downloads.theforeman.org/discovery/releases/latest/foreman-discovery-image-latest.el6.iso-vmlinuz
 
 You also need to download puppet modules. You can use get_modules.sh 
 script (you must have git installed on your system)
