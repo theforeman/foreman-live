@@ -19,15 +19,6 @@ so you should
     git clone https://github.com/theforeman/foreman-live
     cd foreman-live
 
-Then you must download discovery images, we currently use those 
-from http://downloads.theforeman.org/discovery/releases/
-
-    wget http://downloads.theforeman.org/discovery/releases/latest/foreman-discovery-image-latest.el6.iso-img
-    wget http://downloads.theforeman.org/discovery/releases/latest/foreman-discovery-image-latest.el6.iso-vmlinuz
-
-You also need to download puppet modules. You can use get_modules.sh 
-script (you must have git installed on your system)
-
 Now you can the create a cd using this following command
 
     livecd-creator --verbose --config=foreman-live-centos.ks
@@ -47,12 +38,5 @@ However you may try it
 
     livecd-creator --verbose --config=foreman-live-centos.ks --cache=/var/cache/live --base-on=livecd-foreman-live-centos-201403180812.iso
 
-LiveCD has hardcoded network to run on 192.168.223.0/24 network, livecd.localdomain 
-is binded on 192.168.223.2 and gateway is set to 192.168.223.1. 
-You can create network in libvirt accordingly (NAT with disabled DHCP).
-
-After your LiveCD boots up you must manually set networking using
-
-    echo "nameserver 192.168.223.1\nnameserver 8.8.8.8" > /etc/resolv.conf
-
-Then you can run foreman_setup.sh script (under root)
+When you boot the livecd you can run foreman_setup.sh script (under root) and
+answer all questions to install fully functional foreman with staypuft
