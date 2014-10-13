@@ -1,13 +1,49 @@
 Foreman-live
 ============
 
-This repository contains kickstart files to build a livecd with foreman 
-pre-installed and configured on boot.
+This repository contains scripts to build a livecd with foreman
+pre-installed and configured on boot. Currently we have debian based
+pure Foreman LiveCD and CentOS 6 based staypuft flavor CD that is
+used to install OpenStack.
 
-Howto is based on http://fedoraproject.org/wiki/How_to_create_and_use_a_Live_CD
+Using Foreman CentOS LiveCD
+---------------------------
+
+This LiveCD contains nightly build of Foreman with Foreman Discovery and
+Foreman Staypuft plugin. It can be used for Foreman evaluation or testing out
+the Staypuft OpenStack installer.
+
+Required stuff:
+
+* Bare metal or VM with at least 3 GB RAM
+* Internet connectivity
+
+After the image is started into graphical mode (X Window), it should auto
+login and prepare the environment. New terminal should be opened. There are
+few manual steps you have to take to get Foreman working. First get root
+permissions and start the setup script
+
+    sudo -i
+    cd /home/liveuser/
+    chmod ugo+x /home/liveuser/foreman_setup.sh
+    ./foreman_setup.sh
+
+This will start the staypuft installer. You will have to answer several
+question regarding networking. When the installation finishes you should
+see a Success message telling you on which domain the Foreman resides
+and what's admin user password.
+
+The network is currently statically configured (192.168.223.0). 
+The installer can reconfigure the network according to the user input.
+
+Once you have your Foreman running you can login as an admin and start
+using Staypuft. For more information about the staypuft plugin, visit
+[staypuft project page](https://github.com/theforeman/staypuft)
 
 Build your LiveCD
 -----------------
+
+This document is based on http://fedoraproject.org/wiki/How_to_create_and_use_a_Live_CD
 
 You must install tools using command (to be found in EPEL)
 
