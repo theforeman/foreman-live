@@ -1,13 +1,36 @@
 Foreman-live
 ============
 
-This repository contains kickstart files to build a livecd with foreman 
-pre-installed and configured on boot.
+This repository contains kickstart files to build a livecd with foreman
+pre-installed and configured on boot. It is being used as a base for
+Foreman-based live appliances (e.g. OpenStack).
 
-Howto is based on http://fedoraproject.org/wiki/How_to_create_and_use_a_Live_CD
+Using Foreman LiveCD
+--------------------
+
+This LiveCD contains nightly build of Foreman with Foreman Discovery and
+Foreman Staypuft plugin. It can be used for Foreman evaluation or testing out
+the Staypuft OpenStack installer.
+
+Required stuff:
+
+* Bare metal or VM with at least 3 GB RAM
+* Internet connectivity
+
+After the image is started into graphical mode (X Window), it should auto
+login and prepare the environment. New terminal should be opened with this
+script which will guide you through post-installation of Foreman:
+
+    bash /home/liveuser/foreman_setup.sh
+
+The network is currently statically configured (192.168.122.0) which will work
+great in the "default" libvirt network. The script will reconfigure the
+network according to the user input.
 
 Build your LiveCD
 -----------------
+
+This document is based on http://fedoraproject.org/wiki/How_to_create_and_use_a_Live_CD
 
 You must install tools using command (to be found in EPEL)
 
