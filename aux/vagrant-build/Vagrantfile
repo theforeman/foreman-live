@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   boxes.each do |box|
     config.vm.define box[:name], primary: box[:default] do |machine|
       machine.vm.box = box[:name]
-      machine.vm.hostname = "foreman-#{box[:name]}.builder.theforeman.org"
+      machine.vm.hostname = "foreman-livecd-#{box[:name]}.builder.theforeman.org"
       machine.vm.provision :shell, :path => 'build_image.sh', :args => SHELLARGS
 
       machine.vm.provider :libvirt do |p, override|
