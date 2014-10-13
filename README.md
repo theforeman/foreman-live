@@ -1,12 +1,13 @@
 Foreman-live
 ============
 
-This repository contains kickstart files to build a livecd with foreman
-pre-installed and configured on boot. It is being used as a base for
-Foreman-based live appliances (e.g. OpenStack).
+This repository contains scripts to build a livecd with foreman
+pre-installed and configured on boot. Currently we have debian based
+pure Foreman LiveCD and CentOS 6 based staypuft flavor CD that is
+used to install OpenStack.
 
-Using Foreman LiveCD
---------------------
+Using Foreman CentOS LiveCD
+---------------------------
 
 This LiveCD contains nightly build of Foreman with Foreman Discovery and
 Foreman Staypuft plugin. It can be used for Foreman evaluation or testing out
@@ -18,14 +19,26 @@ Required stuff:
 * Internet connectivity
 
 After the image is started into graphical mode (X Window), it should auto
-login and prepare the environment. New terminal should be opened with this
-script which will guide you through post-installation of Foreman:
+login and prepare the environment. New terminal should be opened. There are
+few manual steps you have to take to get Foreman working. First get root
+permissions and start the setup script
 
-    bash /home/liveuser/foreman_setup.sh
+    sudo -i
+    cd /home/liveuser/
+    chmod ugo+x /home/liveuser/foreman_setup.sh
+    ./foreman_setup.sh
 
-The network is currently statically configured (192.168.122.0) which will work
-great in the "default" libvirt network. The script will reconfigure the
-network according to the user input.
+This will start the staypuft installer. You will have to answer several
+question regarding networking. When the installation finishes you should
+see a Success message telling you on which domain the Foreman resides
+and what's admin user password.
+
+The network is currently statically configured (192.168.223.0). 
+The installer can reconfigure the network according to the user input.
+
+Once you have your Foreman running you can login as an admin and start
+using Staypuft. For more information about the staypuft plugin, visit
+[staypuft project page](https://github.com/theforeman/staypuft)
 
 Build your LiveCD
 -----------------
