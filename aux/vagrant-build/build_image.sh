@@ -1,29 +1,26 @@
 #!/bin/bash
 # vim: sw=2:ts=2:et
 set -x
-PROJECT=foreman-live
 export repoowner=${1:-theforeman}
 export branch=${2:-master}
+NAME=foreman-live
 
 # give the VM some time to finish booting and network configuration
-sleep 30
+ping -c1 8.8.8.8 2>&1 >/dev/null && echo OK || echo FAIL
+yum -y install livecd-tools appliance-tools-minimizer \
+  hardlink git wget pykickstart
 
 # build plugin
 pushd /root
 SELINUXMODE=$(getenforce)
 setenforce 1
 
-[ -d $PROJECT ] || git clone --depth 1 https://github.com/$repoowner/$PROJECT -b $branch
-pushd $PROJECT
+[ -d $NAME ] || git clone https://github.com/$repoowner/$NAME.git -b $branch
+pushd $NAME
 git pull
-yum -y install epel-release
-yum -y install git livecd-tools spin-kickstarts
-git clone https://github.com/theforeman/foreman-live
-pushd foreman-live
-livecd-creator --verbose --config=foreman-live-centos.ks
-ls -1
-popd
-ls -1
+
+./build-livecd flive-centos7.ks && sudo ./build-livecd-root
+ls foreman-live/*iso -lah
 
 popd
 setenforce $SELINUXMODE

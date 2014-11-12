@@ -1,0 +1,49 @@
+Foreman Live CD
+===============
+
+Foreman Live CD is a Foreman pre-installed live appliance for Proof of Concept
+projects.
+
+Usage
+-----
+
+http://downloads.theforeman.org/livecd/nightly/
+
+Download and boot the image from CD/DVD or USB stick.
+
+Building
+--------
+
+To prepare CentOS 7 kickstart do:
+
+  $ ./build-livecd fdi-centos7.ks
+
+To build the image (make sure you have at least 1 GB free space in /tmp):
+
+  $ sudo ./build-livecd-root
+
+The image is built in /tmp directory because in most modern distributions this is
+mapped to memory. This is intentional, so make sure you have enough RAM or you can
+experience some swapping. Alternatively, change the temp directory in the scripts.
+
+Downstream
+----------
+
+This repostirory is downstream friendly for koji. The generated fdi-image.ks
+kickstart file is self-containing. First of all, run the initial script and
+provide empty base kickstart without any repositories (they will be added via
+koji:
+
+  $ ./build-livecd fdi-empty.ks
+
+Then simply build the image from kickstart called fdi-image.ks:
+
+  koji spin-livecd \
+    fdi-image-rhel_7_0 \
+    $(cat root/usr/share/fdi/VERSION) \
+    --release $(cat root/usr/share/fdi/RELEASE) \
+    --repo=http://my.repo/1 \
+    --scratch \
+    my-tag-image
+    x86_64 \
+    fdi-image.ks
