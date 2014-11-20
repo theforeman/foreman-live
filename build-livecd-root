@@ -1,0 +1,61 @@
+#!/bin/bash -x
+
+# the portion of building a livecd that needs to be run as root
+# run this after running build-livecd
+#
+# The temp dir in which things happen is by default deleted when this
+# script ends, unless an error happens or the KEEP_TMPDIR variable is set
+
+function cleanup() {
+    if [ -n "$KEEP_TMPDIR" ]; then
+        echo "Not removing tmpdir $tmpdir"
+    else
+        [ -d $tmpdir ] && rm -rf $tmpdir
+    fi
+}
+
+if [ $(id -u) != 0 ]; then
+  echo "Please run this script as root"
+  exit 1
+fi
+
+trap cleanup EXIT
+
+resultdir=$PWD
+srcdir=$(realpath $(dirname $0))
+tmpdir=$(mktemp -d /tmp/build-flive-XXXXXX)
+
+cd $srcdir
+mkdir foreman-live 2>/dev/null
+last_tag=$(git describe --abbrev=0 --tags)
+last_sha=$(git log --pretty=format:'%h' -n 1)
+
+cd $tmpdir
+echo Working in directory $tmpdir
+
+echo "* Running livecd-creator"
+livecd-creator -v --cache /var/cache/build-flive --config $srcdir/flive-image.ks -f foreman-live -t /tmp || KEEP_TMPDIR=yes
+
+mv foreman-live*iso $srcdir/foreman-live
+
+cd $srcdir/foreman-live
+cat > README <<EOF
+This is Foreman Live CD appliance
+
+To get instructions how to use the image head over to
+
+https://github.com/theforeman/foreman-live
+
+Image was built from $last_tag ($last_sha)
+
+To verify the kernel and initrd in this tar, run
+
+  sha256sum -c SHA256SUM
+EOF
+sha256sum foreman-live*iso > SHA256SUM
+cd $srcdir
+
+echo "* Done"
+echo "The image was built:"
+ls -lah $srcdir/foreman-live
+exit 0
