@@ -19,6 +19,8 @@ binutils
 # Foreman packages
 foreman
 ruby193-rubygem-foreman_discovery
+ruby193-rubygem-foreman_bootdisk
+ruby193-rubygem-foreman_setup
 foreman-installer
 
 # Foreman dependencies
