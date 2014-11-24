@@ -32,8 +32,8 @@ echo foreman.livecd.lan > /etc/hostname
 
 echo " * setting up hosts"
 cat > /etc/hosts << EOF
-127.0.0.1   foreman.livecd.lan foreman
-::1         foreman.livecd.lan foreman
+127.0.0.1   foreman.livecd.lan foreman localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         foreman.livecd.lan foreman localhost localhost.localdomain localhost6 localhost6.localdomain6
 EOF
 
 echo " * adding desktop icons"
