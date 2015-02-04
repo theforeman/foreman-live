@@ -3,6 +3,7 @@
 set -x
 export repoowner=${1:-theforeman}
 export branch=${2:-master}
+export kickstart=${3:-flive-centos7.ks}
 NAME=foreman-live
 
 # give the VM some time to finish booting and network configuration
@@ -19,7 +20,7 @@ setenforce 1
 pushd $NAME
 git pull
 
-./build-livecd flive-centos7.ks && sudo ./build-livecd-root
+./build-livecd "$kickstart" && sudo ./build-livecd-root
 ls foreman-live/*iso -lah
 
 popd

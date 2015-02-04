@@ -18,6 +18,7 @@ end
 SHELLARGS = []
 SHELLARGS << ENV['repoowner'] || ''
 SHELLARGS << ENV['branch'] || ''
+SHELLARGS << ENV['kickstart'] || ''
 
 Vagrant.configure("2") do |config|
   boxes.each do |box|
